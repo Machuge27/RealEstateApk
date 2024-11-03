@@ -8,14 +8,26 @@ import AboutUs from './Pages/AboutUs';
 import CTABanner from './Pages/ActionBanners';
 import TestimonialsPage from './Pages/Testimonials';
 import BlogResourceCenter from './Pages/Resources';
-import Navbar from './Pages/Navbar';
+import Navbar from './Components/Navbar';
+import ContactPage from './Pages/ContactUs';
 
 
 export default function App(){
+ 
+
   return(
     <BrowserRouter>
+    <Navbar/>
     <Routes>
-      <Route path={'/'} element={<Navbar/>}/>
+      <Route path={'/'} element={<Homepage/>}/>
+      <Route path={'/property'} element={<PropertyListings/>}/>
+      <Route path={'/service'} element={<ServicesSection/>}/>
+      <Route path={'/SpecialServices'} element={<SpecializedServices/>}/>
+      <Route path={'/AboutUs'} element={<AboutUs/>}/>
+      <Route path={'/Testimonials'} element={<TestimonialsPage/>}/>
+      <Route path={'/Banner'} element={<CTABanner/>}/>
+      <Route path={'/Resources'} element={<BlogResourceCenter/>}/>
+      <Route path={'/contact'} element={<ContactPage/>}/>
     </Routes>
     </BrowserRouter>
   )

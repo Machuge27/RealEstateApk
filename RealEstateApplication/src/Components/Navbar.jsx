@@ -6,12 +6,12 @@ const Navbar = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'About Us', path: '/about' },
-    { name: 'Services', path: '/services' },
-    { name: 'Specialized Services', path: '/specialized-services' },
-    { name: 'Property Listing', path: '/property-listing' },
+    { name: 'About Us', path: '/AboutUs' },
+    { name: 'Services', path: '/service' },
+    { name: 'Specialized Services', path: '/SpecialServices' },
+    { name: 'Property Listing', path: '/property' },
     { name: 'Resources', path: '/resources' },
-    { name: 'Testimonials', path: '/testimonials' },
+    { name: 'Testimonials', path: '/Testimonials' },
     { name: 'Contact Us', path: '/contact' },
   ];
 
@@ -19,11 +19,11 @@ const Navbar = () => {
     <nav style={{
       backgroundColor: 'white',
       boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      position: 'fixed',
+      position: 'sticky',
       top: 0,
       left: 0,
       right: 0,
-      zIndex: 1000,
+      zIndex: 1000000,
     }}>
       <div style={{
         maxWidth: '1200px',
