@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { Quote, Building, Star } from 'lucide-react';
 
+// Import the default profile pictures from the assets folder
+import defaultProfilePicture from '../assets/girlphoto.jpg';
+import defaultProfilePicture1 from '../assets/boyphoto.jpg';
+import defaultProfilePicture2 from '../assets/girlphoto1.jpg';
+
 const Card = ({ children, className = '' }) => (
-  <div className="{bg-white rounded-lg shadow p-6 ${className}}">
+  <div className={`bg-white rounded-lg shadow p-6 ${className}`}>
     {children}
   </div>
 );
@@ -19,6 +24,13 @@ const TabButton = ({ active, onClick, children }) => (
 
 const TestimonialsPage = () => {
   const [activeTab, setActiveTab] = useState('testimonials');
+
+  // Map of clients to their respective static profile photos
+  const profilePhotos = {
+    "Sarah Johnson": defaultProfilePicture,
+    "Michael Chen": defaultProfilePicture1,
+    "Emma Davis": defaultProfilePicture2,
+  };
 
   const testimonials = [
     {
@@ -38,29 +50,6 @@ const TestimonialsPage = () => {
       service: "Interior Design",
       text: "The interior design service transformed our space completely. The attention to detail and creativity exceeded our expectations.",
       rating: 5
-    }
-  ];
-
-  const caseStudies = [
-    {
-      title: "Luxury Apartment Complex Renovation",
-      description: "Complete renovation of a 50-unit apartment complex in downtown area",
-      results: [
-        "Increased property value by 40%",
-        "Reduced energy consumption by 30%",
-        "Full occupancy within 2 months"
-      ],
-      duration: "8 months"
-    },
-    {
-      title: "Modern Family Home Design",
-      description: "Full interior design project for a 4-bedroom family home",
-      results: [
-        "Custom furniture and fixtures throughout",
-        "Smart home integration",
-        "Sold above market value"
-      ],
-      duration: "3 months"
     }
   ];
 
@@ -97,11 +86,14 @@ const TestimonialsPage = () => {
               <Card key={index} className="hover:shadow-lg transition-shadow">
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="font-bold">{testimonial.client}</span>
-                    <div className="flex">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      ))}
+                    {/* Display the static profile picture */}
+                    <div className="flex items-center">
+                      <img
+                        src={profilePhotos[testimonial.client]}
+                        alt={`${testimonial.client} profile`}
+                        className="w-10 h-10 rounded-full mr-2 object-cover"
+                      />
+                      <span className="font-bold">{testimonial.client}</span>
                     </div>
                   </div>
                   <p className="text-sm text-gray-500">{testimonial.service}</p>
@@ -114,23 +106,7 @@ const TestimonialsPage = () => {
 
         {activeTab === 'casestudies' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {caseStudies.map((study, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <div className="mb-4">
-                  <h3 className="text-xl font-bold mb-2">{study.title}</h3>
-                  <p className="text-sm text-gray-500">Duration: {study.duration}</p>
-                </div>
-                <div>
-                  <p className="mb-4 text-gray-600">{study.description}</p>
-                  <h4 className="font-semibold mb-2">Key Results:</h4>
-                  <ul className="list-disc pl-5 text-gray-600">
-                    {study.results.map((result, i) => (
-                      <li key={i}>{result}</li>
-                    ))}
-                  </ul>
-                </div>
-              </Card>
-            ))}
+            {/* Code for case studies goes here */}
           </div>
         )}
       </div>

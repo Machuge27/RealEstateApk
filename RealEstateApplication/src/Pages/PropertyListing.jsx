@@ -6,14 +6,7 @@ const Select = ({ value, onChange, placeholder, options }) => (
   <select
     value={value}
     onChange={(e) => onChange(e.target.value)}
-    style={{
-      padding: '8px 12px',
-      fontSize: '14px',
-      border: '1px solid #ccc',
-      borderRadius: '4px',
-      backgroundColor: '#fff',
-      width: '100%'
-    }}
+    className="w-full p-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
   >
     <option value="" disabled>
       {placeholder}
@@ -30,15 +23,7 @@ const Select = ({ value, onChange, placeholder, options }) => (
 const Card = ({ children, className = '', onClick = null }) => (
   <div 
     onClick={onClick}
-    style={{
-      backgroundColor: '#fff',
-      borderRadius: '8px',
-      boxShadow: '0 1px 3px rgba(0,0,0,0.12)',
-      padding: '16px',
-      margin: '8px 0',
-      transition: 'box-shadow 0.3s ease'
-    }}
-    className={className}
+    className={`bg-white rounded-lg shadow-md p-4 transition-shadow duration-300 ${className}`}
   >
     {children}
   </div>
@@ -46,21 +31,21 @@ const Card = ({ children, className = '', onClick = null }) => (
 
 // Simple Checkbox Component
 const Checkbox = ({ id, checked, onChange, label }) => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+  <div className="flex items-center gap-2">
     <input
       type="checkbox"
       id={id}
       checked={checked}
       onChange={(e) => onChange(e.target.checked)}
-      style={{ cursor: 'pointer' }}
+      className="cursor-pointer"
     />
-    <label htmlFor={id} style={{ fontSize: '14px', cursor: 'pointer' }}>
+    <label htmlFor={id} className="text-sm cursor-pointer">
       {label}
     </label>
   </div>
 );
 
-// Enhanced dummy data with more amenities
+// Enhanced dummy data with images
 const dummyProperties = [
   {
     id: 1,
@@ -74,6 +59,12 @@ const dummyProperties = [
     amenities: ["Pool", "Gym", "Parking", "Security", "Elevator"],
     coordinates: { lat: 40.7128, lng: -74.0060 },
     description: "Beautiful modern apartment in the heart of downtown.",
+    image: "/src/assets/images/image30.jpg",
+    galleryImages: [
+      "/src/assets/images/image31.jpg",
+      "/src/assets/images/image32.jpg",
+      "/src/assets/images/image33.jpg"
+    ]
   },
   {
     id: 2,
@@ -87,6 +78,12 @@ const dummyProperties = [
     amenities: ["Garden", "Garage", "Fireplace", "Central AC", "Smart Home"],
     coordinates: { lat: 40.7300, lng: -74.0100 },
     description: "Spacious family home with a beautiful garden.",
+    image: "/src/assets/images/image34.jpg",
+    galleryImages: [
+      "/src/assets/images/image35.jpg",
+      "/src/assets/images/image36.jpg",
+      "/src/assets/images/image37.jpg"
+    ]
   },
   {
     id: 3,
@@ -100,6 +97,12 @@ const dummyProperties = [
     amenities: ["Terrace", "Private Elevator", "Wine Cellar", "Pool", "Security"],
     coordinates: { lat: 40.7200, lng: -74.0200 },
     description: "Stunning penthouse with panoramic city views.",
+    image: "/src/assets/images/image38.jpg",
+    galleryImages: [
+      "/src/assets/images/image39.jpg",
+      "/src/assets/images/image40.jpg",
+      "/src/assets/images/image41.jpg"
+    ]
   },
   {
     id: 4,
@@ -113,6 +116,12 @@ const dummyProperties = [
     amenities: ["Gym", "Parking", "Laundry"],
     coordinates: { lat: 40.7150, lng: -74.0080 },
     description: "Perfect starter home in a prime location.",
+    image: "/src/assets/images/image.jpg",
+    galleryImages: [
+      "/src/assets/images/image31.jpg",
+      "/src/assets/images/image32.jpg",
+      "/src/assets/images/image33.jpg"
+    ]
   },
   {
     id: 5,
@@ -126,6 +135,12 @@ const dummyProperties = [
     amenities: ["Pool", "Gym", "Security", "Parking", "Smart Home"],
     coordinates: { lat: 40.7220, lng: -74.0180 },
     description: "Luxurious waterfront living with stunning views.",
+    image: "/src/assets/images/image34.jpg",
+    galleryImages: [
+      "/src/assets/images/image35.jpg",
+      "/src/assets/images/image36.jpg",
+      "/src/assets/images/image37.jpg"
+    ]
   }
 ];
 
@@ -138,13 +153,14 @@ const priceRanges = [
   { label: "Over $1,000,000", min: 1000000, max: Infinity }
 ];
 
-// All available amenities (collected from properties)
+// All available amenities
 const allAmenities = Array.from(
   new Set(dummyProperties.flatMap(property => property.amenities))
 ).sort();
 
 const PropertyListings = () => {
   const [selectedProperty, setSelectedProperty] = useState(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [properties] = useState(dummyProperties);
   const [filters, setFilters] = useState({
     priceRange: null,
@@ -260,7 +276,7 @@ const PropertyListings = () => {
             propertyType: "all",
             amenities: []
           })}
-          className="w-full py-2 mt-4 text-sm text-white bg-blue-600 rounded hover:bg-blue-700"
+          className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
         >
           Clear All Filters
         </button>
@@ -271,11 +287,14 @@ const PropertyListings = () => {
   // Property Card Component
   const PropertyCard = ({ property }) => (
     <Card 
-      className="cursor-pointer hover:shadow-lg transition-shadow"
-      onClick={() => setSelectedProperty(property)}
+      className="cursor-pointer hover:shadow-lg"
+      onClick={() => {
+        setSelectedProperty(property);
+        setSelectedImageIndex(0);
+      }}
     >
       <img
-        src="/api/placeholder/400/300"
+        src={property.image}
         alt={property.title}
         className="w-full h-48 object-cover rounded-lg mb-4"
       />
@@ -319,28 +338,58 @@ const PropertyListings = () => {
         <h2 className="text-2xl font-bold mb-2">{property.title}</h2>
         <p className="text-gray-600">${property.price.toLocaleString()}</p>
       </div>
-      <img
-        src="/api/placeholder/800/400"
-        alt={property.title}
-        className="w-full h-64 object-cover rounded-lg my-4"
-      />
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+      <div className="relative my-4">
+        <img
+          src={selectedImageIndex === 0 ? property.image : property.galleryImages[selectedImageIndex - 1]}
+          alt={property.title}
+          className="w-full h-96 object-cover rounded-lg"
+        />
+        <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
+          <img
+            src={property.image}
+            alt="thumbnail"
+            className={`w-24 h-24 object-cover rounded-md cursor-pointer transition-all 
+              ${selectedImageIndex === 0 ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'}`}
+            onClick={() => setSelectedImageIndex(0)}
+          />
+          {property.galleryImages.map((img, index) => (
+            <img
+              key={index}
+              src={img}
+              alt={`thumbnail ${index + 1}`}
+              className={`w-24 h-24 object-cover rounded-md cursor-pointer transition-all 
+                ${selectedImageIndex === index + 1 ? 'ring-2 ring-blue-500' : 'opacity-70 hover:opacity-100'}`}
+              onClick={() => setSelectedImageIndex(index + 1)}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h4 className="font-semibold">Details</h4>
-            <ul className="mt-2 space-y-1">
-              <li>Bedrooms: {property.bedrooms}</li>
-              <li>Bathrooms: {property.bathrooms}</li>
-              <li>Size: {property.size} sq ft</li>
+            <h4 className="text-lg font-semibold mb-2">Details</h4>
+            <ul className="space-y-2 text-gray-600">
+              <li className="flex items-center">
+                <span className="w-24">Bedrooms:</span> 
+                <span className="font-medium">{property.bedrooms}</span>
+              </li>
+              <li className="flex items-center">
+                <span className="w-24">Bathrooms:</span> 
+                <span className="font-medium">{property.bathrooms}</span>
+              </li>
+              <li className="flex items-center">
+                <span className="w-24">Size:</span> 
+                <span className="font-medium">{property.size} sq ft</span>
+                </li>
             </ul>
           </div>
           <div>
-            <h4 className="font-semibold">Amenities</h4>
-            <div className="mt-2 flex flex-wrap gap-2">
+            <h4 className="text-lg font-semibold mb-2">Amenities</h4>
+            <div className="flex flex-wrap gap-2">
               {property.amenities.map((amenity, index) => (
                 <span 
                   key={index}
-                  className="px-2 py-1 text-sm bg-gray-100 rounded-full"
+                  className="px-3 py-1 text-sm bg-gray-100 rounded-full"
                 >
                   {amenity}
                 </span>
@@ -349,47 +398,57 @@ const PropertyListings = () => {
           </div>
         </div>
         <div>
-          <h4 className="font-semibold">Description</h4>
-          <p className="mt-2">{property.description}</p>
+          <h4 className="text-lg font-semibold mb-2">Description</h4>
+          <p className="text-gray-600 leading-relaxed">{property.description}</p>
         </div>
         <div>
-          <h4 className="font-semibold">Location</h4>
-          <div className="mt-2 bg-gray-100 h-48 rounded-lg flex items-center justify-center">
-            <p className="text-gray-500">Interactive Map Would Display Here</p>
+          <h4 className="text-lg font-semibold mb-2">Location</h4>
+          <div className="bg-gray-100 h-64 rounded-lg flex items-center justify-center">
+            <MapPin className="w-6 h-6 text-gray-400 mr-2" />
+            <p className="text-gray-500">Map location: {property.location}</p>
           </div>
+        </div>
+        <div className="mt-6 flex gap-4">
+          <button className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+            Contact Agent
+          </button>
+          <button className="flex-1 border border-blue-600 text-blue-600 py-3 rounded-lg hover:bg-blue-50 transition-colors">
+            Schedule Viewing
+          </button>
         </div>
       </div>
     </Card>
   );
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Filter Panel */}
-        <div className="md:col-span-3">
+        <div className="lg:col-span-3">
           <FilterPanel />
         </div>
 
         {/* Main Content */}
-        <div className="md:col-span-9">
+        <div className="lg:col-span-9">
           {selectedProperty ? (
             <>
               <button
                 onClick={() => setSelectedProperty(null)}
-                className="mb-4 text-blue-600 hover:underline"
+                className="mb-6 text-blue-600 hover:text-blue-700 flex items-center gap-2"
               >
-                ← Back to listings
+                <span>←</span> Back to listings
               </button>
               <PropertyDetails property={selectedProperty} />
             </>
           ) : (
             <>
-              <div className="mb-4">
+              <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-semibold">
                   {filteredProperties.length} Properties Found
                 </h2>
+                
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProperties.map(property => (
                   <PropertyCard key={property.id} property={property} />
                 ))}

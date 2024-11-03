@@ -37,30 +37,31 @@ const Input = ({ className = '', ...props }) => (
 
 const BlogResourceCenter = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [extended, setExtension] = useState(false);
   const [activeTab, setActiveTab] = useState('homeSetup');
 
   const articles = {
     homeSetup: [
       {
         title: "Essential Moving Day Checklist",
-        excerpt: "Make your move smooth and stress-free with our comprehensive checklist.",
+        excerpt: "Make your move smooth and stress-free with our comprehensive checklist. Make your move smooth and stress-free with our comprehensive checklist. Make your move smooth and stress-free with our comprehensive checklist.",
         readTime: "5 min read",
         category: "Moving Tips",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Essential Moving Day Checklist1.jpeg"
       },
       {
         title: "Investment Property Guide 2024",
         excerpt: "Learn the essentials of real estate investment in Ethiopia's growing market.",
         readTime: "8 min read",
         category: "Investment",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Investment Property Guide 2024.jpeg"
       },
       {
         title: "Seasonal Home Maintenance Guide",
         excerpt: "Keep your home in top condition year-round with these maintenance tips.",
         readTime: "6 min read",
         category: "Maintenance",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Seasonal Home Maintenance Guide.jpeg"
       }
     ],
     interiorDesign: [
@@ -69,21 +70,21 @@ const BlogResourceCenter = () => {
         excerpt: "Blend traditional Ethiopian elements with modern design aesthetics.",
         readTime: "7 min read",
         category: "Trends",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Ethiopian Contemporary Design Trends.jpeg"
       },
       {
         title: "Small Space Organization Solutions",
         excerpt: "Maximize your living space with these clever design and storage ideas.",
         readTime: "5 min read",
         category: "Organization",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Small Space Organization Solutions.jpeg"
       },
       {
         title: "Color Schemes for Every Room",
         excerpt: "Expert color combination advice from our Arhibu Homes design team.",
         readTime: "6 min read",
         category: "Color Theory",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Color Schemes for Every Room.jpeg"
       }
     ],
     localGuides: [
@@ -92,21 +93,21 @@ const BlogResourceCenter = () => {
         excerpt: "Discover the amenities and lifestyle of Addis Ababa's bustling Bole district.",
         readTime: "10 min read",
         category: "Neighborhood Guide",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Bole Area Neighborhood Guide.jpeg"
       },
       {
         title: "Best Schools in Addis Ababa",
         excerpt: "Comprehensive guide to top educational institutions in the capital.",
         readTime: "8 min read",
         category: "Education",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Best Schools in Addis Ababa.jpeg"
       },
       {
         title: "Shopping and Entertainment Guide",
         excerpt: "Your complete guide to shopping centers and entertainment spots.",
         readTime: "7 min read",
         category: "Lifestyle",
-        image: "/api/placeholder/400/250"
+        image: "./src/assets/images/Shopping and Entertainment Guide.jpeg"
       }
     ]
   };
@@ -118,33 +119,54 @@ const BlogResourceCenter = () => {
       article.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
   };
-
-  const ArticleGrid = ({ articles }) => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {filterArticles(articles).map((article, index) => (
-        <Card key={index} className="hover:shadow-lg transition-shadow">
-          <img 
-            src={article.image} 
-            alt={article.title}
-            className="w-full h-48 object-cover rounded-t-lg"
-          />
-          <CardHeader>
-            <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-purple-600 font-medium">{article.category}</span>
-              <span className="text-sm text-gray-500">{article.readTime}</span>
+  const ArticleCard = ({ article }) => {
+    const [isExtended, setIsExtended] = useState(false);
+  
+    return (
+      <div className="bg-white rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden">
+        <img
+          src={article.image}
+          alt={article.title}
+          className="w-full h-48 object-cover"
+        />
+        <div className="p-4">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-sm text-purple-600 font-medium">{article.category}</span>
+            <span className="text-sm text-gray-500">{article.readTime}</span>
+          </div>
+          <h3 className="text-xl font-semibold mb-3">{article.title}</h3>
+          <div className="space-y-4">
+            <div className={`relative ${isExtended ? 'max-h-none' : 'max-h-10 overflow-hidden'}`}>
+              <p className="text-gray-600">{article.excerpt}</p>
+              {!isExtended && (
+                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-white to-transparent" />
+              )}
             </div>
-            <h3 className="text-xl font-semibold">{article.title}</h3>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600">{article.excerpt}</p>
-            <button className="mt-4 text-purple-600 hover:text-purple-800 font-medium">
-              Read More →
+            <button
+              className="mt-4 flex items-center gap-1 text-purple-600 hover:text-purple-800 font-medium transition-colors"
+              onClick={() => setIsExtended(!isExtended)}
+            >
+              {isExtended ? (
+                'Read Less'
+              ) : (
+                'Read More →'
+              )}
             </button>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  const ArticleGrid = ({ articles }) => {
+    return (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filterArticles(articles).map((article, index) => (
+          <ArticleCard key={index} article={article} />
+        ))}
+      </div>
+    );
+  };
 
   return (
     <div className="max-w-7xl mx-auto p-6">

@@ -24,7 +24,7 @@ const specializedServices = [
       "Safety inspections & certifications",
       "Emergency electrical repairs"
     ],
-    portfolioImages: ["/api/placeholder/400/300", "/api/placeholder/400/300"]
+    portfolioImages: ["./src/assets/ElectricalImage.jpeg", "./src//assets/ElectricalImage1.jpeg"]
   },
   {
     id: 2,
@@ -39,7 +39,7 @@ const specializedServices = [
       "Motion detection systems",
       "24/7 surveillance options"
     ],
-    portfolioImages: ["/api/placeholder/400/300", "/api/placeholder/400/300"]
+    portfolioImages: ["./src/assets/CameraInstallation.jpeg", "./src/assets/CameraInstallation1.jpeg"]
   },
   {
     id: 3,
@@ -54,7 +54,7 @@ const specializedServices = [
       "Decorative stonework",
       "Water feature maintenance"
     ],
-    portfolioImages: ["/api/placeholder/400/300", "/api/placeholder/400/300"]
+    portfolioImages: ["./src/assets/Stone & FountainWorks.jpeg", "./src/assets/Stone & Fountain Works1.jpeg"]
   },
   {
     id: 4,
@@ -69,7 +69,7 @@ const specializedServices = [
       "Color scheme consultation",
       "Space optimization"
     ],
-    portfolioImages: ["/api/placeholder/400/300", "/api/placeholder/400/300"]
+    portfolioImages: ["./src/assets/Finishing Works & Interior Design2.jpeg", "./src/assets/Finishing Works & Interior Design.jpeg"]
   }
 ];
 

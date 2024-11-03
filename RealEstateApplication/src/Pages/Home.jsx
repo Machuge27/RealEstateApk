@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Home, Phone, MapPin, Bed, Bath, Square } from 'lucide-react';
 
-// In real implementation, replace placeholder images with these URLs:
-// Hero background: "https://images.unsplash.com/photo-1582407947304-fd86f028f716"
-// Listing images:
-// - "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9"
-// - "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"
-// - "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c"
-// - "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea"
-
 const ALL_LISTINGS = [
   {
     id: 1,
@@ -19,7 +11,7 @@ const ALL_LISTINGS = [
     bedrooms: 4,
     bathrooms: 3,
     area: 350,
-    image: "/api/placeholder/400/300",
+    image: "/src/assets/images/image30.jpg",
     description: "Modern luxury villa with garden",
     propertyType: "villa"
   },
@@ -32,7 +24,7 @@ const ALL_LISTINGS = [
     bedrooms: 3,
     bathrooms: 2,
     area: 180,
-    image: "/api/placeholder/400/300",
+    image: "/src/assets/images/image31.jpg",
     description: "Newly built apartment with parking",
     propertyType: "apartment"
   },
@@ -45,7 +37,7 @@ const ALL_LISTINGS = [
     bedrooms: 0,
     bathrooms: 2,
     area: 250,
-    image: "/api/placeholder/400/300",
+    image: "/src/assets/images/image32.jpg",
     description: "Prime location commercial space",
     propertyType: "commercial"
   },
@@ -58,9 +50,35 @@ const ALL_LISTINGS = [
     bedrooms: 5,
     bathrooms: 4,
     area: 400,
-    image: "/api/placeholder/400/300",
+    image: "/src/assets/images/image33.jpg",
     description: "Spacious family home with garden",
     propertyType: "house"
+  },
+  {
+    id: 5,
+    title: "Penthouse in Sarbet",
+    price: 85000,
+    location: "Sarbet, Addis Ababa",
+    type: "rent",
+    bedrooms: 3,
+    bathrooms: 3,
+    area: 280,
+    image: "/src/assets/images/image34.jpg",
+    description: "Luxurious penthouse with city view",
+    propertyType: "apartment"
+  },
+  {
+    id: 6,
+    title: "Office Space in Mexico",
+    price: 5800000,
+    location: "Mexico, Addis Ababa",
+    type: "sale",
+    bedrooms: 0,
+    bathrooms: 2,
+    area: 200,
+    image: "/src/assets/images/image35.jpg",
+    description: "Modern office space in prime location",
+    propertyType: "commercial"
   }
 ];
 
@@ -150,7 +168,7 @@ const PropertyCard = ({ property }) => (
       </div>
       <button 
         className="w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
-        onClick={() => alert(`Viewing details for ${property.title}`)}
+        onClick={() => alert(property.title)}
       >
         View Details
       </button>
@@ -160,34 +178,41 @@ const PropertyCard = ({ property }) => (
 
 const Homepage = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchType, setSearchType] = useState('rent');
+  const [searchType, setSearchType] = useState('');
   const [filters, setFilters] = useState({});
   const [filteredListings, setFilteredListings] = useState(ALL_LISTINGS);
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
-    const filtered = ALL_LISTINGS.filter(listing => {
-      // Filter by search type (rent/sale)
-      if (searchType !== '' && listing.type !== searchType) return false;
-      
-      // Filter by search query (location or title)
-      if (searchQuery && !listing.location.toLowerCase().includes(searchQuery.toLowerCase()) &&
-          !listing.title.toLowerCase().includes(searchQuery.toLowerCase())) {
-        return false;
-      }
-      
-      // Filter by property type
-      if (filters.propertyType && listing.propertyType !== filters.propertyType) return false;
-      
-      // Filter by price range
-      if (filters.minPrice && listing.price < parseInt(filters.minPrice)) return false;
-      if (filters.maxPrice && listing.price > parseInt(filters.maxPrice)) return false;
-      
-      // Filter by minimum bedrooms
-      if (filters.bedrooms && listing.bedrooms < parseInt(filters.bedrooms)) return false;
-      
-      return true;
-    });
+    let filtered = [...ALL_LISTINGS];
+    
+    if (searchType) {
+      filtered = filtered.filter(listing => listing.type === searchType);
+    }
+    
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(listing => 
+        listing.location.toLowerCase().includes(query) ||
+        listing.title.toLowerCase().includes(query)
+      );
+    }
+    
+    if (filters.propertyType) {
+      filtered = filtered.filter(listing => listing.propertyType === filters.propertyType);
+    }
+    
+    if (filters.minPrice) {
+      filtered = filtered.filter(listing => listing.price >= parseInt(filters.minPrice));
+    }
+    
+    if (filters.maxPrice) {
+      filtered = filtered.filter(listing => listing.price <= parseInt(filters.maxPrice));
+    }
+    
+    if (filters.bedrooms) {
+      filtered = filtered.filter(listing => listing.bedrooms >= parseInt(filters.bedrooms));
+    }
     
     setFilteredListings(filtered);
   }, [searchQuery, searchType, filters]);
@@ -195,10 +220,10 @@ const Homepage = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <div className="relative h-96 bg-gradient-to-r from-blue-600 to-blue-800">
+      <div className="relative h-96 bg-transparent">
         <div className="absolute inset-0">
           <img 
-            src="/api/placeholder/1920/600" 
+            src="/src/assets/images/image.jpg"
             alt="Hero background" 
             className="w-full h-full object-cover opacity-20"
           />
@@ -222,6 +247,7 @@ const Homepage = () => {
               onChange={(e) => setSearchType(e.target.value)}
               className="p-3 border rounded-md flex-1"
             >
+              <option value="">All Types</option>
               <option value="rent">Rent</option>
               <option value="sale">Buy</option>
             </select>
@@ -268,10 +294,15 @@ const Homepage = () => {
       </div>
 
       {/* Call to Action */}
-      <div className="bg-gray-100 py-16 px-4">
+      <div 
+        className="bg-gray-100 py-16 px-4 bg-cover bg-center"
+        style={{
+        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("/src/assets/images/image36.jpg")'
+         }}
+      >
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Find Your Perfect Home?</h2>
-          <p className="text-gray-600 mb-8">
+          <h2 className="text-3xl font-bold mb-6 text-white">Ready to Find Your Perfect Home?</h2>
+          <p className="text-gray-200 mb-8">
             Let us help you navigate your next real estate journey
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -283,7 +314,7 @@ const Homepage = () => {
               Browse Properties
             </button>
             <button 
-              className="flex items-center justify-center gap-2 border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-md hover:bg-blue-50 transition-colors"
+              className="flex items-center justify-center gap-2 border-2 border-white text-white px-8 py-3 rounded-md hover:bg-white hover:text-blue-600 transition-colors"
               onClick={() => alert('Contact form would open')}
             >
               <Phone className="w-5 h-5" />

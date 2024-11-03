@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MessageSquare, MapPin, Clock, Phone, Mail, Send } from 'lucide-react';
+import ChatPage from '../Components/ChatPage';
 
 // Custom Input Component
 const Input = ({ className = '', ...props }) => (
@@ -58,6 +59,8 @@ const CardContent = ({ className = '', ...props }) => (
 );
 
 const ContactPage = () => {
+const [isChatt,setChatt]=useState(false)
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -167,6 +170,8 @@ const ContactPage = () => {
         <div className="space-y-6">
           {/* Live Chat Card */}
           <Card>
+           {!isChatt&&
+           <>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MessageSquare className="w-5 h-5" />
@@ -177,13 +182,24 @@ const ContactPage = () => {
               <p className="text-gray-600 mb-4">
                 Need immediate assistance? Chat with our customer service team in real-time.
               </p>
-              <Button variant="outline" className="w-full">
+              <Button onClick={()=>setChatt(true)} variant="outline" className="w-full">
                 Start Chat
               </Button>
+ 
             </CardContent>
+            </>
+}
+
+                    
+           {isChatt&&
+            <ChatPage close={setChatt}/>
+           }
+
           </Card>
 
           {/* Office Location Card */}
+
+          {!isChatt&&
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -227,6 +243,7 @@ const ContactPage = () => {
               </div>
             </CardContent>
           </Card>
+}
         </div>
       </div>
     </div>

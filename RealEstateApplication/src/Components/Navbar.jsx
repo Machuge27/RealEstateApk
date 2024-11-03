@@ -38,11 +38,18 @@ const Navbar = () => {
         }}>
           {/* Logo */}
           <div style={{ flexShrink: 0 }}>
-            <img
-              src="/api/placeholder/150/50"
-              alt="Arhibu Homes"
-              style={{ height: '48px' }}
-            />
+            
+          <div className="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200" style={{ height: '40px' }}>
+        <g fill="#e74c3c">
+          <path d="M60 40 h30 v40 l40-25 l40 25 v-40 h30 v120 h-30 v-40 h-80 v40 h-30 z" />
+          <rect x="120" y="70" width="15" height="15" />
+          <rect x="145" y="70" width="15" height="15" />
+        </g>
+        <text x="150" y="170" textAnchor="middle" className="text" fill="#e74c3c" fontSize="24" fontWeight="bold">ARHIBU</text>
+        <text x="150" y="190" textAnchor="middle" className="text" fill="#e74c3c" fontSize="16">HOMES</text>
+      </svg>
+    </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -87,43 +94,7 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* CSS Styles */}
-      <style>{`
-        .nav-desktop {
-          display: none;
-        }
-        
-        @media (min-width: 1024px) {
-          .nav-desktop {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-          }
-          .nav-mobile-button {
-            display: none;
-          }
-        }
-
-        .nav-link {
-          padding: 0.5rem 0.75rem;
-          border-radius: 0.375rem;
-          font-size: 0.875rem;
-          font-weight: 500;
-          color: #374151;
-          text-decoration: none;
-          transition: all 0.2s;
-        }
-        
-        .nav-link:hover {
-          color: #991B1B;
-          background-color: #F3F4F6;
-        }
-        
-        .nav-mobile {
-          padding: 1rem;
-          background-color: white;
-        }
-      `}</style>
+     
     </nav>
   );
 };
