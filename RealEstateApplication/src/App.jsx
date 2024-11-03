@@ -8,13 +8,14 @@ import AboutUs from './Pages/AboutUs';
 import CTABanner from './Pages/ActionBanners';
 import TestimonialsPage from './Pages/Testimonials';
 import BlogResourceCenter from './Pages/Resources';
+import Navbar from './Pages/Navbar';
 
 
 export default function App(){
   return(
     <BrowserRouter>
     <Routes>
-      <Route path={'/'} element={<TestimonialsPage/>}/>
+      <Route path={'/'} element={<Navbar/>}/>
     </Routes>
     </BrowserRouter>
   )
